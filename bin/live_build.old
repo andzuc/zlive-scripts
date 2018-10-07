@@ -1,0 +1,10 @@
+#!/bin/bash
+chkhost&&exit 1
+
+HOSTNAME="$(hostname)"
+hostname "${LLHOSTNAME}"
+
+chroot ${PROOT} "/tmp/${LLIVE}/build" &
+wait
+
+hostname "${HOSTNAME}"

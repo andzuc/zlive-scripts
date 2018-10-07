@@ -1,0 +1,62 @@
+#!/bin/bash
+chkhost&&exit 1
+set -e
+
+echo "buildcf: bare_mountsys: start"
+bare_mountsys &
+wait
+echo "buildcf: bare_mountsys: done"
+sleep 5
+
+echo "buildcf: mksafe: start"
+mksafe "$PROOT" &
+wait
+echo "buildcf: mksafe: done"
+sleep 5
+
+echo "buildcf: cf_set: start"
+cf_set &
+wait
+echo "buildcf: cf_set: done"
+sleep 5
+
+echo "buildcf: live_install: start"
+live_install &
+wait
+echo "buildcf: live_install: done"
+sleep 5
+
+echo "buildcf: live_build: start"
+live_build
+echo "buildcf: live_build: done"
+sleep 5
+
+echo "buildcf: live_end: start"
+live_end &
+wait
+echo "buildcf: live_end: done"
+sleep 5
+
+# echo "buildcf: cf_deploy: start"
+# cf_deploy &
+# wait
+# echo "buildcf: cf_deploy: done"
+# sleep 5
+
+# echo "buildcf: cf_mkboot: start"
+# cf_mkboot &
+# wait
+# echo "buildcf: cf_mkboot: done"
+# sleep 5
+
+echo "buildcf: mkunsafe: start"
+mkunsafe "$PROOT" &
+wait
+echo "buildcf: mkunsafe: done"
+sleep 5
+
+echo "buildcf: bare_umountsys: start"
+bare_umountsys &
+wait
+echo "buildcf: bare_umountsys: done"
+sleep 5

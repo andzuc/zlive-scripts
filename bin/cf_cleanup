@@ -1,0 +1,11 @@
+#!/bin/bash
+chkhost&&exit 1
+
+rm -f "${PROOT}/root/.bashrc"
+rm -rf "${PROOT}/var/log/portage"
+rm -f "${PROOT}/rc.log"
+find "${PROOT}/var/log" -type f -exec rm -f '{}' ';'
+
+# configurati ad hoc
+rm -f "${PROOT}/etc/adjtime"
+rm -f "${PROOT}/var/lib/ntp/ntp.drift"

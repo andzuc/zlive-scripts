@@ -1,0 +1,14 @@
+# <fs>                                  <mountpoint>            <type>          <opts>                  <dump/pass>
+/dev/sda1                               /boot                   ext2            noauto,noatime          0 2
+/dev/sda2                               none                    swap            sw,pri=1                0 0
+/dev/sda3                               /                       ext3            noatime                 0 1
+/dev/mapper/zrouter_vg0-usr             /usr                    ext3            noatime                 0 2
+/dev/mapper/zrouter_vg0-portage         /usr/portage            ext3            noatime                 0 3
+/dev/mapper/zrouter_vg0-distfiles       /usr/portage/distfiles  ext3            noatime                 0 4
+/dev/mapper/zrouter_vg0-opt             /opt                    ext3            noatime                 0 2
+/dev/mapper/zrouter_vg0-tmp             /tmp                    ext3            noatime                 0 2
+/dev/mapper/zrouter_vg0-var             /var                    ext3            noatime                 0 2
+/dev/mapper/zrouter_vg0-vartmp          /var/tmp                ext3            noatime                 0 3
+
+proc					/proc			proc		defaults		0 0
+shm					/dev/shm		tmpfs		nodev,nosuid,noexec	0 0

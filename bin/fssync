@@ -1,0 +1,6 @@
+#!/bin/bash
+
+[ -d ${SRC} ]||exit 1
+[ -d ${DST} ]||exit 1
+
+rsync -avhHAX ${SRC}/ ${DST}

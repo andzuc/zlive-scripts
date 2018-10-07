@@ -1,0 +1,14 @@
+#!/bin/bash
+chkhost&&exit 1
+
+e2fsck ${BOOTDEV}
+e2fsck ${ROOTDEV}
+e2fsck /dev/mapper/zrouter_vg0-tmp
+e2fsck /dev/mapper/zrouter_vg0-usr
+e2fsck /dev/mapper/zrouter_vg0-opt
+e2fsck /dev/mapper/zrouter_vg0-var
+e2fsck /dev/mapper/zrouter_vg0-vartmp
+e2fsck /dev/mapper/zrouter_vg0-portage
+e2fsck /dev/mapper/zrouter_vg0-distfiles
+
+#fsck /dev/hdb1

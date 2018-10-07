@@ -1,0 +1,5 @@
+#!/bin/bash
+chkhost&&exit 1
+
+hostname zrouter
+chroot ${PROOT} /bin/bash

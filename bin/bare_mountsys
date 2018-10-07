@@ -1,0 +1,26 @@
+#!/bin/bash
+chkhost&&exit 1
+
+[ -z ${PROOT} ]&&exit 1
+[ -z ${ROOTDEV} ]&&exit 1
+[ -z ${BOOTDEV} ]&&exit 1
+
+[ ! -d ${PROOT} ]&&mkdir ${PROOT}
+mount ${ROOTDEV} ${PROOT}
+
+[ ! -d ${PROOT}/boot ]&&mkdir ${PROOT}/boot
+mount ${BOOTDEV} ${PROOT}/boot
+
+[ ! -d ${PROOT}/tmp ]&&mkdir ${PROOT}/tmp
+mount /dev/mapper/zg0-tmp ${PROOT}/tmp
+
+[ ! -d ${PROOT}/var ]&&mkdir ${PROOT}/var
+[ ! -d ${PROOT}/var/tmp ]&&mkdir ${PROOT}/var/tmp
+mount /dev/mapper/zg0-vartmp ${PROOT}/var/tmp
+
+[ ! -d ${PROOT}/usr ]&&mkdir ${PROOT}/usr
+[ ! -d ${PROOT}/usr/portage ]&&mkdir ${PROOT}/usr/portage
+mount /dev/mapper/zg0-portage ${PROOT}/usr/portage
+
+[ ! -d ${PROOT}/opt ]&&mkdir ${PROOT}/opt
+mount /dev/mapper/zg0-opt ${PROOT}/opt

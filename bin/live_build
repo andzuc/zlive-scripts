@@ -1,0 +1,24 @@
+#!/bin/bash
+chkhost&&exit 1
+
+#"${PROOT}/usr/local/sbin/zumexec" "${PROOT}" "/tmp/${LLIVE}/build"
+#"${PROOT}/usr/local/sbin/zumexec" "${PROOT}" /bin/bash
+#"${PROOT}/usr/local/sbin/zumexec" "${PROOT}" /bin/bash \
+#    '-c "/usr/local/sbin/umlsh ; /tmp/'"${LLIVE}"'/build & wait ; (echo o >/proc/sysrq-trigger)"'
+
+echo "S0: bulding image..."
+"${PROOT}/usr/local/sbin/zumexec" "${PROOT}" /bin/bash -c \"" \
+/usr/local/sbin/umlsh; \
+dmesg -D; \
+export LLHOSTNAME=""${LLHOSTNAME}""; \
+export PROOT=""""; \
+export LLIVE=""${LLIVE}""; \
+export CFSIZEMAX=""${CFSIZEMAX}""; \
+export MOUNTONLY=""${MOUNTONLY}""; \
+hostname \"${LLHOSTNAME}\"; \
+/tmp/uml_imgstart; \
+/tmp/uml_imgbuild; \
+/tmp/uml_imgdone; \
+mount -o remount,ro /; \
+(echo o >/proc/sysrq-trigger) \
+"\"

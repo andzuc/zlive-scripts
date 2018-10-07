@@ -1,0 +1,15 @@
+#!/bin/bash
+chkhost&&exit 1
+
+HOSTNAME=$(hostname)
+hostname $LLHOSTNAME
+
+# use updated syslinux and lilo to write CF boot record
+chroot ${PROOT} mount /dev/sdb1 ${CFROOT} &
+wait
+echo "y${IFS}y"|chroot ${PROOT} ${CFROOT}/boot/bootinst.sh &
+wait
+chroot ${PROOT} /bin/umount ${CFROOT} &
+wait
+
+hostname ${HOSTNAME}

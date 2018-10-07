@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ "$MOUNTONLY" = "Y" ]; then
+    /bin/bash
+    source "${PROOT}/tmp/${LLIVE}/.config"
+# CDDATA comes from sourcing host config (above)
+    LIVEDATA="${PROOT}${CDDATA}"
+    umount "$LIVEDATA"
+else
+    "/tmp/${LLIVE}/build" & wait
+    source "${PROOT}/tmp/${LLIVE}/.config"
+# CDDATA comes from sourcing host config (above)
+    LIVEDATA="${PROOT}${CDDATA}"
+    umount "$LIVEDATA"
+# installs boot loader
+    VCFDEV=`losetup -f --show "${LIVEDATA}.img"`
+    syslinux --directory /boot/syslinux/ --install "$VCFDEV"
+fi

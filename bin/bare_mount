@@ -1,0 +1,28 @@
+#!/bin/bash
+chkhost&&exit 1
+
+[ -z ${PROOT} ]&&exit 1
+[ -z ${SWAPDEV} ]&&exit 1
+
+swapon ${SWAPDEV}
+
+bare_mountsys
+
+[ ! -d ${PROOT}/proc ]&&mkdir ${PROOT}/proc
+mount -t proc none ${PROOT}/proc
+
+mkdir -p /tmp/gentoo/dev
+mount -t tmpfs none /tmp/gentoo/dev
+[ ! -d ${PROOT}/dev ]&&mkdir ${PROOT}/dev
+mount -t aufs -o br=/tmp/gentoo/dev=rw:/dev=ro none ${PROOT}/dev
+rm -f ${PROOT}/dev/initctl
+
+[ ! -d ${PROOT}/dev/pts ]&&mkdir ${PROOT}/dev/pts
+mount -t devpts -o rw,nosuid,noexec,gid=5,mode=620 none ${PROOT}/dev/pts
+
+# if /etc/mtab is not a link is updated
+[ ! -d ${PROOT}/etc ]&&mkdir ${PROOT}/etc
+if [ "/proc/self/mounts" != "$(readlink -- "${PROOT}/etc/mtab")" ];
+then
+    cp -f /proc/self/mounts ${PROOT}/etc/mtab
+fi

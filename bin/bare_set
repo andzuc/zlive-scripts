@@ -1,0 +1,21 @@
+#!/bin/bash
+chkhost&&exit 1
+
+PCONF=${PBASE}/conf/bare
+
+
+if [[ -d ${PCONF}/etc ]] && [[ -f ${PCONF}/etc/.bare ]]; then
+
+	cp -f "${PCONF}/root/.bashrc" "${PROOT}/root/.bashrc"
+	cp -f "${PCONF}/etc/fstab" "${PROOT}/etc/fstab"
+	cp -f "${PCONF}/etc/conf.d/localmount" "${PROOT}/etc/conf.d/localmount"
+
+	umount -t tmpfs "${PROOT}/var/tmp"
+
+	source "${PBASE}/conf/${LLHOSTNAME}.config"
+	rm -rf "${PROOT}/tmp/${LLIVE}"
+	rm -rf ${PROOT}/tmp/initrd_tree*
+	rm -rf ${PROOT}/tmp/live_data*
+	rm -rf ${PROOT}/tmp/linux-live-debug.log
+
+fi

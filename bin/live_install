@@ -1,0 +1,24 @@
+#!/bin/bash
+chkhost&&exit 1
+
+MOUNTONLY="${MOUNTONLY:-Y}"
+# installa live scripts
+if ! [ -d "${PROOT}/tmp/${LLIVE}" ]; then
+# Capture temporary scripts data output to disk as this can be too much for upper branch tmpfs
+# TMP=/partimag/test.zlive/llout
+    if [ -n "${TMP}" ] && [ -d "${TMP}" ]; then
+	if ! [ "$MOUNTONLY" = "Y" ]; then
+	    echo "${TMP}/${LLHOSTNAME}": cleaning
+	    [ ! -d "${TMP}/${LLHOSTNAME}" ]&&mkdir -p "${TMP}/${LLHOSTNAME}"
+	    rm -rf "${TMP}/${LLHOSTNAME}"/*
+	fi
+	mount -t none -o rw,bind "${TMP}/${LLHOSTNAME}" "${PROOT}/tmp"
+	echo "${TMP}/${LLHOSTNAME}": bind mount to "${PROOT}/tmp"
+    fi
+    
+    cp -af "${SCRIPTS}" "${PROOT}/tmp/${LLIVE}"
+    cp -f "${PBASE}/conf/${LLHOSTNAME}.config" "${PROOT}/tmp/${LLIVE}/.config"
+    cp -f `which uml_imgstart` "${PROOT}/tmp"
+    cp -f `which uml_imgbuild` "${PROOT}/tmp"
+    cp -f `which uml_imgdone` "${PROOT}/tmp"
+fi

@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ -d /tftpboot ]; then
+    echo "ATTENZIONE: eseguire su client DRBL"
+    exit 0
+fi
+exit 1

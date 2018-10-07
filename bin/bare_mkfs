@@ -1,0 +1,34 @@
+#!/bin/bash
+chkhost&&exit 1
+
+mke2fs -L boot /dev/hda1
+tune2fs -c 0 -i 0 /dev/hda1
+
+mkswap /dev/hda2
+
+mke2fs -L root -j /dev/hda3
+tune2fs -c 0 -i 0 /dev/hda3
+
+mke2fs -L usr -j /dev/mapper/zrouter_vg0-usr
+tune2fs -c 0 -i 0 /dev/mapper/zrouter_vg0-usr
+
+mke2fs -L portage -j /dev/mapper/zrouter_vg0-portage
+tune2fs -c 0 -i 0 /dev/mapper/zrouter_vg0-portage
+
+mke2fs -L distfiles -j /dev/mapper/zrouter_vg0-distfiles
+tune2fs -c 0 -i 0 /dev/mapper/zrouter_vg0-distfiles
+
+mke2fs -L var -j /dev/mapper/zrouter_vg0-var
+tune2fs -c 0 -i 0 /dev/mapper/zrouter_vg0-var
+
+mke2fs -L vartmp -j /dev/mapper/zrouter_vg0-vartmp
+tune2fs -c 0 -i 0 /dev/mapper/zrouter_vg0-vartmp
+
+mke2fs -L opt -j /dev/mapper/zrouter_vg0-opt
+tune2fs -c 0 -i 0 /dev/mapper/zrouter_vg0-opt
+
+mke2fs -L tmp -j /dev/mapper/zrouter_vg0-tmp
+tune2fs -c 0 -i 0 /dev/mapper/zrouter_vg0-tmp
+
+
+mkdosfs -v -n zrouter /dev/hdb1

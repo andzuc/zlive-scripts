@@ -1,0 +1,14 @@
+#!/bin/bash
+chkhost&&exit 1
+
+CFDEV="${CFDEV:-/dev/sdb1}"
+LIVEDATA="$(ls -d ${PROOT}/tmp/${CDDATA})"
+
+mkdosfs -v -n "${LLHOSTNAME}" "$CFDEV"
+
+[ ! -d "${CFROOT}" ]&&mkdir "${CFROOT}"
+mount "$CFDEV" "${CFROOT}"
+
+cp -a -t "${CFROOT}" "${LIVEDATA}"/*
+
+umount "${CFROOT}"

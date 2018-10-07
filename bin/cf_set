@@ -1,0 +1,16 @@
+#!/bin/bash
+chkhost&&exit 1
+
+PCONF="${PBASE}/conf/cf"
+PCONFHOST="${PBASE}/conf/hostconfig"
+
+# elimina file non necessari
+cf_cleanup
+
+# copia configurazione
+if [[ -d "${PCONF}" ]]; then
+	cp -af "${PCONF}/." "${PROOT}"
+fi
+if [[ -d "${PCONFHOST}" ]]; then
+	cp -af "${PCONFHOST}/." "${PROOT}"
+fi

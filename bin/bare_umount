@@ -1,0 +1,14 @@
+#!/bin/bash
+chkhost&&exit 1
+
+[ -z ${PROOT} ]&&exit 1
+
+umount ${PROOT}/dev/pts
+umount ${PROOT}/dev
+umount /tmp/gentoo/dev
+rm -fR /tmp/gentoo
+umount ${PROOT}/proc
+
+bare_umountsys
+
+swapoff ${SWAPDEV}

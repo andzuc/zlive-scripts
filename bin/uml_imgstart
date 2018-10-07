@@ -1,0 +1,21 @@
+#!/bin/bash
+MOUNTONLY="${MOUNTONLY:-Y}"
+
+if [ -d "${PROOT}/tmp/${LLIVE}" ]; then
+    source "${PROOT}/tmp/${LLIVE}/.config"
+# CDDATA comes from sourcing host config (above)
+    LIVEDATA="${PROOT}${CDDATA}"
+    if ! [ -f "${LIVEDATA}.img" ]; then
+	VCFSIZEMAX="${CFSIZEMAX:-1G}"
+	dd if=/dev/zero of="${LIVEDATA}.img" bs=1 count=0 seek="${VCFSIZEMAX}"
+# VCFDEV: will contain the final virtual block device image
+    fi
+    VCFDEV=`losetup -f --show "${LIVEDATA}.img"`
+    if ! [ "$MOUNTONLY" = "Y" ]; then
+	mkfs.vfat -v -n "${LLHOSTNAME}" "${VCFDEV}"
+    fi
+    if ! [ -d "${LIVEDATA}" ]; then
+	mkdir "${LIVEDATA}"
+    fi
+    mount "${VCFDEV}" "${LIVEDATA}"
+fi

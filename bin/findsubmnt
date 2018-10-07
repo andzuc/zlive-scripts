@@ -1,0 +1,27 @@
+#!/bin/bash
+
+MNT=$(echo "${1}" | sed 's/\//\\\//g')
+if [ $# -eq 2 ] ; then
+    if [ "${2}" != "rev" ] ; then
+	FST=${2}
+    else
+	REV=1
+    fi
+else
+    if [ $# -eq 3 ] ; then
+	FST=${2}
+	REV=1
+    fi
+fi
+
+if [ -z "${FST}" ] ; then
+    AWKCMD="\$2 ~ /^$MNT/ { print \$2 }"
+else
+    AWKCMD="\$1 ~ /^$FST/ && \$2 ~ /^$MNT/ { print \$2 }"
+fi
+
+if [ -z "${REV}" ]; then
+    echo $(cat /proc/mounts|awk "$AWKCMD")
+else
+    echo $(tac /proc/mounts|awk "$AWKCMD")
+fi

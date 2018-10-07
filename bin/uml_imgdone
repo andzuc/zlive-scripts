@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -d "${PROOT}/tmp/${LLIVE}" ]; then
+    source "${PROOT}/tmp/${LLIVE}/.config"
+    LIVEDATA="${PROOT}${CDDATA}"
+    losetup -d `losetup -j "$LIVEDATA.img"|awk '{sub(/:/,"",$1); print $1}'`
+fi

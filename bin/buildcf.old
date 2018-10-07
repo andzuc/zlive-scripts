@@ -1,0 +1,50 @@
+#!/bin/bash
+chkhost&&exit 1
+
+echo "buildcf: bare_mount: start"
+bare_mount &
+wait
+echo "buildcf: bare_mount: done"
+sleep 5
+
+echo "buildcf: cf_set: start"
+cf_set &
+wait
+echo "buildcf: cf_set: done"
+sleep 5
+
+echo "buildcf: live_install: start"
+live_install &
+wait
+echo "buildcf: live_install: done"
+sleep 5
+
+echo "buildcf: live_build: start"
+live_build &
+wait
+echo "buildcf: live_build: done"
+sleep 5
+
+echo "buildcf: cf_deploy: start"
+cf_deploy &
+wait
+echo "buildcf: cf_deploy: done"
+sleep 5
+
+echo "buildcf: cf_mkboot: start"
+cf_mkboot &
+wait
+echo "buildcf: cf_mkboot: done"
+sleep 5
+
+echo "buildcf: bare_set: start"
+bare_set &
+wait
+echo "buildcf: bare_set: done"
+sleep 5
+
+echo "buildcf: bare_umount: start"
+bare_umount &
+wait
+echo "buildcf: bare_umount: done"
+sleep 5

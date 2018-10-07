@@ -1,0 +1,13 @@
+#!/bin/bash
+
+[ -z $LLHOSTNAME ]&&exit 1
+[ -z $CFDEV ]&&exit 1
+
+if [ -d "/partimag/$LLHOSTNAME" ] ; then
+	if [ -d "/partimag/$LLHOSTNAME.old" ] ; then
+		rm -rf "/partimag/$LLHOSTNAME.old"
+	fi
+	mv "/partimag/$LLHOSTNAME" "/partimag/$LLHOSTNAME.old"
+fi
+
+/opt/drbl/sbin/drbl-ocs -b -q2 -j2 -p poweroff -z1p -i 1000000 -h " 192.168.102.1" -l en_US.UTF-8 startdisk save $LLHOSTNAME $CFDEV

@@ -1,0 +1,25 @@
+#!/bin/bash
+chkhost&&exit 1
+
+mke2fs -L boot /dev/sdc2
+tune2fs -c 0 -i 0 /dev/sdc2
+
+mkswap /dev/sdc3
+
+mke2fs -L root -j /dev/sdc4
+tune2fs -c 0 -i 0 /dev/sdc4
+
+mke2fs -L tmp -j /dev/mapper/zg0-tmp
+tune2fs -c 0 -i 0 /dev/mapper/zg0-tmp
+
+mke2fs -L vartmp -j /dev/mapper/zg0-vartmp
+tune2fs -c 0 -i 0 /dev/mapper/zg0-vartmp
+
+mke2fs -L portage -j /dev/mapper/zg0-portage
+tune2fs -c 0 -i 0 /dev/mapper/zg0-portage
+
+mke2fs -L opt -j /dev/mapper/zg0-opt
+tune2fs -c 0 -i 0 /dev/mapper/zg0-opt
+
+
+mkdosfs -v -n ZLIVE /dev/sdb1

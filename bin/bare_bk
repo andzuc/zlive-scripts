@@ -1,0 +1,13 @@
+#!/bin/bash
+chkhost&&exit 1
+
+PCONF=${PBASE}/conf/bare
+
+if [[ -d ${PCONF}/etc ]] && [[ ! -f ${PCONF}/etc/.bare ]]; then
+
+	cp -f "${PROOT}/root/.bashrc" "${PCONF}/root/.bashrc"
+	cp -f "${PROOT}/etc/fstab" "${PCONF}/etc/fstab"
+	cp -f "${PROOT}/etc/conf.d/localmount" "${PCONF}/etc/conf.d/localmount"
+	touch "${PCONF}/etc/.bare"
+
+fi

@@ -1,0 +1,35 @@
+#!/bin/bash
+chkhost&&exit 1
+set -o errexit
+
+if ! [ "$#" -eq 1 ]; then
+    echo "$0: invalid arguments"
+    echo "$0 <SAFEPATH>"
+    exit 1
+fi
+
+SAFEPATH="${1}"
+
+SMEM="/tmp/mksafe/mem"
+SBIND="/tmp/mksafe/bind"
+
+[ ! -d "${SMEM}${SAFEPATH}" ]&&exit 1
+[ ! -d "${SBIND}${SAFEPATH}" ]&&exit 1
+
+AUFSBR="$(findsubmnt "${SAFEPATH}" none rev)"
+for br in ${AUFSBR}
+do
+    umount "${br}"
+done
+
+umount "${SMEM}${SAFEPATH}"
+rmdir "${SMEM}${SAFEPATH}"
+
+BINDBR="$(findsubmnt "${SBIND}${SAFEPATH}" rev)"
+for br in ${BINDBR}
+do
+    umount "${br}"
+done
+
+rm -rf "${SMEM}${SAFEPATH}"
+rm -rf "${SBIND}${SAFEPATH}"

@@ -1,0 +1,11 @@
+#!/bin/bash
+source /pub/zcloner201/init.sh
+WORK=/pub/zcloner201/config/work
+
+[ -d "${WORK}" ]&&rm -rf "${WORK}"
+mkdir -p "${WORK}"
+
+tar -xpf /pub/zcloner201/config/config.tar -C "${WORK}" --numeric-owner
+dir2lzm "${WORK}" /pub/zcloner201/config/config.lzm
+
+rm -rf "${WORK}"

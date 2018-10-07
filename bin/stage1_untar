@@ -1,0 +1,2 @@
+#!/bin/bash
+tar -xvjpf /pub/gentoo/stage1/stage1-x86-2008.0.tar.bz2 -C ${PROOT} --exclude='./dev/pts' --exclude='./dev/pts/.keep'

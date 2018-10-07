@@ -1,0 +1,29 @@
+#!/bin/bash
+chkhost&&exit 1
+
+bare_mountsys
+
+# Hides /usr/portage /usr/src /usr/local/src /var/log/portage
+
+mksafe "${PROOT}"
+
+cd "${PROOT}"
+
+mount -t tmpfs none var/tmp
+mount -t tmpfs none usr/portage
+mount -t tmpfs none usr/src
+mount -t tmpfs none usr/local/src
+
+cf_set
+tar cvjpf /partimag/test.zlive/image.tbz2 *
+
+umount usr/local/src
+umount usr/src
+umount usr/portage
+umount var/tmp
+
+cd -
+
+mkunsafe ${PROOT}
+
+bare_umountsys

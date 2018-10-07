@@ -1,0 +1,11 @@
+#!/bin/bash
+chkhost&&exit 1
+
+[ -z ${PROOT} ]&&exit 1
+
+umount ${PROOT}/opt
+umount ${PROOT}/usr/portage
+umount ${PROOT}/var/tmp
+umount ${PROOT}/tmp
+umount ${PROOT}/boot
+umount ${PROOT}

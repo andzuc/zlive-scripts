@@ -1,0 +1,12 @@
+#!/bin/bash
+chkhost&&exit 1
+
+# installa live scripts
+if [ -d "${PROOT}/tmp/${LLIVE}" ]; then
+    source "${PROOT}/tmp/${LLIVE}/.config"
+    LIVEDATA="${PROOT}${CDDATA}"
+    echo dd if="$LIVEDATA.img" of="/dev/$CFDEV" 
+    dd if="$LIVEDATA.img" of="/dev/$CFDEV"
+    umount "${TMP}/${LLHOSTNAME}"
+    echo "${TMP}/${LLHOSTNAME}": bind umount from "${PROOT}/tmp"
+fi
