@@ -1,0 +1,19 @@
+#!/bin/bash
+
+rm -f /etc/machine-id
+dbus-uuidgen >/etc/machine-id
+
+rm -f /etc/ssh/ssh_host*
+COMMENT="root@$(hostname)"
+ssh-keygen -C $COMMENT -N '' -b 2048 -t 'rsa' -f /etc/ssh/ssh_host_rsa_key
+ssh-keygen -C $COMMENT -N '' -b 2048 -t 'rsa1' -f /etc/ssh/ssh_host_key
+ssh-keygen -C $COMMENT -A
+
+/usr/local/src/zlivepatch/applypatch
+
+rc-update del mount-ro shutdown
+rc-update add unmount-all shutdown
+rc-update -u
+touch /run/openrc/softlevel
+/etc/init.d/savecache start
+rm /run/openrc/softlevel

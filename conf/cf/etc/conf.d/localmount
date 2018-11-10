@@ -1,0 +1,3 @@
+# Stop the unmounting of certain points.
+# This could be useful for some NFS related work.
+no_umounts="/mnt/live /mnt/live/memory /mnt/live/memory/images/* /mnt/live/memory/data /mnt/live/memory/changes /mnt/live/memory/config"

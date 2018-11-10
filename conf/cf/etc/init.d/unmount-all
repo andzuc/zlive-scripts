@@ -1,0 +1,29 @@
+#!/sbin/openrc-run
+
+description="Unmount root filesystem, pivoting to a tmpfs root."
+
+depend()
+{
+        need killprocs savecache
+}
+
+start()
+{
+        local RUNLEVEL="$(runlevel|awk '{ print $2; }')"
+
+        # Flush all pending disk writes now
+        sync; sync
+
+        source /usr/lib/liblinuxlive
+        ebegin "Unmounting root filesystem, pivoting to /$INITRAMDISK root."
+
+        ln -sf busybox /bin/ash
+
+        if [ "$RUNLEVEL" = "0" ]; then
+            exec /$INITRAMDISK/initrd/bin/cleandie --start poweroff
+        elif [ "$RUNLEVEL" = "6" ]; then
+            exec /$INITRAMDISK/initrd/bin/cleandie --start reboot
+        fi
+
+        eerror "Cleandie exec failed"
+}

@@ -1,0 +1,15 @@
+#! /bin/sh
+FILES="/usr/local/sbin/mkconfig /etc/adjtime /var/lib/ntp/ntp.drift /etc/inittab"
+WORK=/tmp/config
+
+[ -d "${WORK}" ]&&rm -rf "${WORK}"
+mkdir -p "${WORK}"
+
+tar -cpf "${WORK}/config.tar" ${FILES}
+echo "MKCONFIG: uploading files"
+scp "${WORK}/config.tar" zcloner:/pub/zcloner201/config/config.tar
+echo "MKCONFIG: creating module"
+ssh zcloner /pub/zcloner201/bin/mkconfiglzm
+config_fetch
+
+rm -rf "${WORK}"

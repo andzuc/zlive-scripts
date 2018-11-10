@@ -1,0 +1,3 @@
+/etc/adjtime
+/var/lib/ntp
+/etc/inittab

@@ -1,0 +1,27 @@
+#! /bin/sh
+echo HOST
+uname -a
+uptime
+echo
+
+echo SENSORS
+sensors
+
+if [ -n "${MAILTO}" ] ; then
+# stato server NTP
+    echo 'NTP'
+    echo PEERS:
+    ntpq -p
+    echo KERNINFO:
+    ntpdc -c kerninfo
+    echo
+# drop_caches
+    echo 'MEMORY'
+    echo VM: Before drop_caches
+    free
+    sleep 30
+    sync
+    echo 3 >/proc/sys/vm/drop_caches
+    echo VM: After drop_caches
+    free
+fi

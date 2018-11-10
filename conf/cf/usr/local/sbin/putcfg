@@ -1,0 +1,37 @@
+#! /bin/sh
+if [ -f /usr/lib/liblinuxlive ] ; then
+    cd /
+
+    source /usr/lib/liblinuxlive
+    CONFIGNAME="livecfg.lzm"
+    if [ $# -eq 1 ]; then
+        CONFIGNAME=$1
+    fi
+
+    LIVECFG="/mnt/live/memory/config/$LIVECDNAME"
+    if [ ! -d "$LIVECFG" ]; then
+        rm -f /tmp/_findfile
+        ln -sf ../sbin/blkid /bin/blkid
+        CONFIGSGN=$DEFCONFIGSGN
+        echo "putcfg: looking for '$LIVECDNAME' config directory"
+        echo "        (searching for $CONFIGSGN file)"
+        LIVECFG=$(find_in_computer $LIVECDNAME/$CONFIGSGN)
+        LIVECFG=$(dirname $LIVECFG 2>/dev/null)
+        rm -f /tmp/_findfile
+    fi
+    LIVECFGMNT=$(find_mountpoint $LIVECFG)
+
+    CONFIGPATH="${LIVECFG}/modules/${CONFIGNAME}"
+
+    if [ -d "${LIVECFG}/modules" ]; then
+	scp "${CONFIGPATH}" "zcloner:/pub/${LIVECDNAME}/runconfig/$(date +%Y%m%d%H%M)_${CONFIGNAME}"
+	echo "putcfg: module uploaded: ${CONFIGNAME}"
+    else
+        echo "putcfg: not found: ${LIVECFG}/modules"
+    fi
+
+    if [ "$LIVECFGMNT" != "/mnt/live/memory/config" ]; then
+        umount "$LIVECFGMNT"
+    fi
+    cd -
+fi
