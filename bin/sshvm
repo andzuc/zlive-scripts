@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh -o "StrictHostKeyChecking=no" -i /root/key/root_zrouter zcloner201
